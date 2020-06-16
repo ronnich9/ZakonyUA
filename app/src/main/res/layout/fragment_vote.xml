@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowBackground"
+    tools:context=".detailed.VoteFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/votefragment_close_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_keyboard_arrow_down"
+            android:contentDescription="@string/back_button" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/text_material_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/votefragment_close_image"
+            android:layout_margin="15dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/vote_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:paddingStart="15dp"
+                    android:paddingTop="15dp"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/vote_name"
+                    android:textColor="#DC000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/votefragment_full_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/vote_name"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:fontFamily="@font/open_sans"
+                    android:padding="15dp"
+                    tools:text="Поіменне голосування про
+                 проект до закону до записки про
+                  постанову щодо схвалення проекту про
+                  проект закону щодо змін попередників і їх
+                    проектів про проекти для проектів" />
+
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/piechart_material_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_material_card"
+            android:layout_margin="15dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/piechart_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/piechart_name"
+                    android:textColor="#DC000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart_big"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="400dp"
+                    android:layout_below="@id/piechart_name"
+                    tools:visibility="visible" />
+
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/list_material_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/piechart_material_card"
+            android:layout_margin="15dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="10dp">
+
+            <RelativeLayout
+                android:id="@+id/texts_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/votes_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="@string/votes_by_name"
+                    android:fontFamily="@font/open_sans"
+                    android:textColor="#DC000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/votes_textview_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="35dp"
+                    android:fontFamily="@font/open_sans"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/present_amount"
+                    android:textColor="#DC4C4C4C"
+                    android:textSize="16sp" />
+
+
+
+            <LinearLayout
+                android:id="@+id/list_of_parties"
+                android:layout_below="@id/votes_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.feriramara.zakony.utils.CollapsibleCard
+                    android:id="@+id/list_of_ze"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardIcon="@drawable/u_ze"
+                    app:cardTitle="Слуга народу" />
+
+                <com.feriramara.zakony.utils.CollapsibleCard
+                    android:id="@+id/list_of_opzj"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardIcon="@drawable/u_opzj"
+                    app:cardTitle="ОПЗЖ" />
+
+                <com.feriramara.zakony.utils.CollapsibleCard
+                    android:id="@+id/list_of_golos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardIcon="@drawable/u_golos"
+                    app:cardTitle="Голос" />
+
+                <com.feriramara.zakony.utils.CollapsibleCard
+                    android:id="@+id/list_of_dovira"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardIcon="@drawable/u_dovira"
+                    app:cardTitle="Довіра" />
+
+                <com.feriramara.zakony.utils.CollapsibleCard
+                    android:id="@+id/list_of_pozafr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardIcon="@drawable/u_pozaf"
+                    app:cardTitle="Позафракційні" />
+
+                <com.feriramara.zakony.utils.CollapsibleCard
+                    android:id="@+id/list_of_zamaybah"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardIcon="@drawable/u_zamay"
+                    app:cardTitle="За майбутнє" />
+
+                <com.feriramara.zakony.utils.CollapsibleCard
+                    android:id="@+id/list_of_es"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardIcon="@drawable/u_es"
+                    app:cardTitle="Європейська солідарність" />
+
+                <com.feriramara.zakony.utils.CollapsibleCard
+                    android:id="@+id/list_of_batkiv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardIcon="@drawable/u_batk"
+                    app:cardTitle="Батьківщина" />
+
+            </LinearLayout>
+
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:id="@+id/start_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/list_material_card"
+            android:layout_centerInParent="true"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:layout_margin="8dp"
+            android:text="@string/read_online"
+            android:fontFamily="@font/open_sans"
+            app:icon="@drawable/ic_launch"
+            app:iconPadding="8dp"
+            tools:visibility="visible" />
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

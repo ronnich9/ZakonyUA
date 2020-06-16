@@ -1,0 +1,2 @@
+rootProject.name='ZakonyUA'
+include ':app'

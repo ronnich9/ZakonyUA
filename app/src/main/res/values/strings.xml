@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Закони UA</string>
+
+    <string name="vote_name">Назва законопроекту</string>
+    <string name="piechart_name">Голоси по фракціям</string>
+    <string name="github_link_code">https://github.com/ronnich9/ZakonyUA</string>
+    <string name="rada4you_about">https://rada4you.org/about</string>
+    <string name="playmarket_link">https://play.google.com/store/apps/details?id=com.feriramara.zakony</string>
+    <string name="menu_icon">Menu icon</string>
+    <string name="party_image">party image</string>
+    <string name="back_button">Back button</string>
+    <string name="votes_by_name">Голоси поіменно</string>
+    <string name="present_amount">[присутні]</string>
+    <string name="read_online">Читати на сайті</string>
+    <string name="deputat_face_image">Deputat face image</string>
+    <string name="info_about_policy">Info about policy</string>
+    <string name="animated_icon">Animated icon</string>
+    <string name="detail_button_text">Детальніше</string>
+    <string name="filter_button">Filter button</string>
+
+</resources>
