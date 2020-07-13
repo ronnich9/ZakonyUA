@@ -32,6 +32,7 @@ class CollapsibleCard @JvmOverloads constructor(
     private val toggle: Transition
     private val root: View
     private val cardTitle: String?
+    private val partyImage: ImageView
 
     private val adapter: DeputatAdapter = DeputatAdapter(context)
 
@@ -50,7 +51,6 @@ class CollapsibleCard @JvmOverloads constructor(
         cardTitleView = root.findViewById<TextView>(R.id.card_title).apply {
             text = cardTitle
         }
-        setTitleContentDescription(cardTitle)
         cardDescriptionView = root.findViewById<TextView>(R.id.card_second_title)
 
 
@@ -59,7 +59,7 @@ class CollapsibleCard @JvmOverloads constructor(
         cardRecycler.adapter = adapter
 
 
-        findViewById<ImageView>(R.id.card_image).apply {
+        partyImage = findViewById<ImageView>(R.id.card_image).apply {
             setImageDrawable(icon)
         }
 
@@ -76,10 +76,30 @@ class CollapsibleCard @JvmOverloads constructor(
         cardDescriptionView.text = "[${list.size}]"
     }
 
+    fun setRecyclerView(list: List<VoteDetail.Golos>, partyName: String) {
+        adapter.updateAdapter(list)
+        cardDescriptionView.text = "[${list.size}]"
+        cardTitleView.text = partyName
 
-    fun setTitleContentDescription(cardTitle: String?) {
-        cardTitleView.contentDescription = cardTitle
+        if (partyName == "Народний фронт") {
+            partyImage.setImageResource(R.drawable.u_nf)
+        } else if (partyName == "Блок Петра Порошенка") {
+            partyImage.setImageResource(R.drawable.u_bpp)
+        } else if (partyName == "Об'єднання «Самопоміч»") {
+            partyImage.setImageResource(R.drawable.u_samop)
+        } else if (partyName == "Опозиційний блок") {
+            partyImage.setImageResource(R.drawable.u_opzj)
+        } else if (partyName == "Радикальна партія Олега Ляшка") {
+            partyImage.setImageResource(R.drawable.u_radikal)
+        } else if (partyName == "ВО «Батьківщина»") {
+            partyImage.setImageResource(R.drawable.u_batk)
+        } else {
+            partyImage.setImageResource(R.drawable.ic_launch)
+        }
+
     }
+
+
 
     private fun toggleExpanded() {
         expanded = !expanded
@@ -87,7 +107,6 @@ class CollapsibleCard @JvmOverloads constructor(
         TransitionManager.beginDelayedTransition(root.parent as ViewGroup, toggle)
         cardRecycler.visibility = if (expanded) View.VISIBLE else View.GONE
         expandIcon.rotationX = if (expanded) 180f else 0f
-        setTitleContentDescription(cardTitle)
     }
 
     override fun onSaveInstanceState(): Parcelable {

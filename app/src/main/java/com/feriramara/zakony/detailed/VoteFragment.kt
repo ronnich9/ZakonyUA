@@ -9,6 +9,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -127,110 +128,54 @@ class VoteFragment : Fragment() {
 
     private fun onSuccess(uiState: VoteUiState.Success) {
         fullText.text = uiState.vote.name
-        setPieChart(uiState.vote)
+
 
         urlButton.setOnClickListener {
             context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(uiState.vote.bills[0].url)))
         }
 
-        listZe.setRecyclerView(getZeVoters(uiState.vote.votes))
-        listOpzj.setRecyclerView(getOpzjVoters(uiState.vote.votes))
-        listGolos.setRecyclerView(getGolosVoters(uiState.vote.votes))
-         listDovira.setRecyclerView(getDoviraVoters(uiState.vote.votes))
-        listPozafr.setRecyclerView(getPozafrVoters(uiState.vote.votes))
-        listZaMaybah.setRecyclerView(getZaMaybahVoters(uiState.vote.votes))
-        listES.setRecyclerView(getESVoters(uiState.vote.votes))
-        listBatkiv.setRecyclerView(getBatkivVoters(uiState.vote.votes))
+        if (uiState.vote.id.toInt() < 25000) {
+            setPieChartVIII(uiState.vote)
+            listZe.setRecyclerView(getVoters(uiState.vote.votes, "БЛОК ПЕТРА ПОРОШЕНКА"), "Блок Петра Порошенка")
+            listOpzj.setRecyclerView(getVoters(uiState.vote.votes, "НАРОДНИЙ ФРОНТ"), "Народний фронт")
+            listGolos.setRecyclerView(getVoters(uiState.vote.votes, "САМОПОМІЧ"), "Об'єднання «Самопоміч»")
+            listDovira.setRecyclerView(getVoters(uiState.vote.votes, "Опозиційний блок"), "Опозиційний блок")
+            listPozafr.setRecyclerView(getVoters(uiState.vote.votes, "Позафракційні"))
+            listZaMaybah.setRecyclerView(getVoters(uiState.vote.votes, "Фракція Радикальної партії Олега Ляшка"), "Радикальна партія Олега Ляшка")
+            listES.setRecyclerView(getVoters(uiState.vote.votes, "Батьківщина"), "ВО «Батьківщина»")
+            listBatkiv.visibility = View.GONE
+        } else {
+            setPieChartIX(uiState.vote)
+            listZe.setRecyclerView(getVoters(uiState.vote.votes, "фракція Слуга народу"))
+            listOpzj.setRecyclerView(getVoters(uiState.vote.votes, "фракція Опозиційна платформа - За життя"))
+            listGolos.setRecyclerView(getVoters(uiState.vote.votes, "фракція Голос"))
+            listDovira.setRecyclerView(getVoters(uiState.vote.votes, "депутатська група ДОВІРА"))
+            listPozafr.setRecyclerView(getVoters(uiState.vote.votes, "Позафракційні"))
+            listZaMaybah.setRecyclerView(getVoters(uiState.vote.votes, "депутатська група За майбутнє"))
+            listES.setRecyclerView(getVoters(uiState.vote.votes, "фракція Європейська солідарність"))
+            listBatkiv.setRecyclerView(getVoters(uiState.vote.votes, "фракція Батьківщина"))
+
+        }
+
 
 
     }
 
-    private fun getZeVoters(voters: List<VoteDetail.Golos>): List<VoteDetail.Golos> {
-        val listOfVoters = mutableListOf<VoteDetail.Golos>()
-            for (voter in voters) {
-                if (voter.member.party.equals("фракція Слуга народу"))
-                    listOfVoters.add(voter)
-            }
-        listOfVoters.sortBy { it.member.last_name }
-        return listOfVoters
-    }
-
-    private fun getOpzjVoters(voters: List<VoteDetail.Golos>): List<VoteDetail.Golos> {
+    private fun getVoters(voters: List<VoteDetail.Golos>, party: String): List<VoteDetail.Golos> {
         val listOfVoters = mutableListOf<VoteDetail.Golos>()
         for (voter in voters) {
-            if (voter.member.party.equals("фракція Опозиційна платформа - За життя"))
+            if (voter.member.party.contains(party))
                 listOfVoters.add(voter)
         }
         listOfVoters.sortBy { it.member.last_name }
         return listOfVoters
     }
-
-    private fun getGolosVoters(voters: List<VoteDetail.Golos>): List<VoteDetail.Golos> {
-        val listOfVoters = mutableListOf<VoteDetail.Golos>()
-        for (voter in voters) {
-            if (voter.member.party.equals("фракція Голос"))
-                listOfVoters.add(voter)
-        }
-        listOfVoters.sortBy { it.member.last_name }
-        return listOfVoters
-    }
-
-    private fun getDoviraVoters(voters: List<VoteDetail.Golos>): List<VoteDetail.Golos> {
-        val listOfVoters = mutableListOf<VoteDetail.Golos>()
-        for (voter in voters) {
-            if (voter.member.party.equals("депутатська група ДОВІРА"))
-                listOfVoters.add(voter)
-        }
-        listOfVoters.sortBy { it.member.last_name }
-        return listOfVoters
-    }
-
-    private fun getPozafrVoters(voters: List<VoteDetail.Golos>): List<VoteDetail.Golos> {
-        val listOfVoters = mutableListOf<VoteDetail.Golos>()
-        for (voter in voters) {
-            if (voter.member.party.equals("Позафракційні"))
-                listOfVoters.add(voter)
-        }
-        listOfVoters.sortBy { it.member.last_name }
-        return listOfVoters
-    }
-
-    private fun getZaMaybahVoters(voters: List<VoteDetail.Golos>): List<VoteDetail.Golos> {
-        val listOfVoters = mutableListOf<VoteDetail.Golos>()
-        for (voter in voters) {
-            if (voter.member.party.equals("депутатська група За майбутнє"))
-                listOfVoters.add(voter)
-        }
-        listOfVoters.sortBy { it.member.last_name }
-        return listOfVoters
-    }
-
-    private fun getESVoters(voters: List<VoteDetail.Golos>): List<VoteDetail.Golos> {
-        val listOfVoters = mutableListOf<VoteDetail.Golos>()
-        for (voter in voters) {
-            if (voter.member.party.equals("фракція Європейська солідарність"))
-                listOfVoters.add(voter)
-        }
-        listOfVoters.sortBy { it.member.last_name }
-        return listOfVoters
-    }
-
-    private fun getBatkivVoters(voters: List<VoteDetail.Golos>): List<VoteDetail.Golos> {
-        val listOfVoters = mutableListOf<VoteDetail.Golos>()
-        for (voter in voters) {
-            if (voter.member.party.equals("фракція Батьківщина"))
-                listOfVoters.add(voter)
-        }
-        listOfVoters.sortBy { it.member.last_name }
-        return listOfVoters
-    }
-
 
     private fun onError(uiState: VoteUiState.Error) {
         Toast.makeText(context, uiState.message, Toast.LENGTH_LONG).show()
     }
 
-    private fun setPieChart(vote: VoteDetail) {
+    private fun setPieChartIX(vote: VoteDetail) {
         val listPie = ArrayList<PieEntry>()
         val listColors = ArrayList<Int>()
 
@@ -245,57 +190,31 @@ class VoteFragment : Fragment() {
 
         for (i in vote.votes) {
             if (i.member.party.contentEquals("фракція Слуга народу") && i.vote.contentEquals("aye")) {
-                    ze_aye++
-            }
-        }
-        for (i in vote.votes) {
-            if (i.member.party.contentEquals("фракція Європейська солідарність") && i.vote.contentEquals("aye")) {
+                ze_aye++
+            } else if (i.member.party.contentEquals("фракція Європейська солідарність") && i.vote.contentEquals("aye")) {
                 es_aye++
-            }
-        }
-        for (i in vote.votes) {
-            if (i.member.party.contentEquals("фракція Голос") && i.vote.contentEquals("aye")) {
+            } else if (i.member.party.contentEquals("фракція Голос") && i.vote.contentEquals("aye")) {
                 golos_aye++
-            }
-        }
-        for (i in vote.votes) {
-            if (i.member.party.contentEquals("депутатська група ДОВІРА") && i.vote.contentEquals("aye")) {
+            } else if (i.member.party.contentEquals("депутатська група ДОВІРА") && i.vote.contentEquals("aye")) {
                 dovira_aye++
-            }
-        }
-        for (i in vote.votes) {
-            if (i.member.party.contentEquals("Позафракційні") && i.vote.contentEquals("aye")) {
+            } else if (i.member.party.contentEquals("Позафракційні") && i.vote.contentEquals("aye")) {
                 pozafrak_aye++
-            }
-        }
-
-        for (i in vote.votes) {
-            if (i.member.party.contentEquals("депутатська група За майбутнє") && i.vote.contentEquals("aye")) {
+            } else if (i.member.party.contentEquals("депутатська група За майбутнє") && i.vote.contentEquals("aye")) {
                 za_maybah_aye++
-            }
-        }
-
-        for (i in vote.votes) {
-            if (i.member.party.contentEquals("фракція Опозиційна платформа - За життя") && i.vote.contentEquals("aye")) {
+            } else if (i.member.party.contentEquals("фракція Опозиційна платформа - За життя") && i.vote.contentEquals("aye")) {
                 opzj_aye++
-            }
-        }
-
-        for (i in vote.votes) {
-            if (i.member.party.contentEquals("фракція Батьківщина") && i.vote.contentEquals("aye")) {
+            } else if (i.member.party.contentEquals("фракція Батьківщина") && i.vote.contentEquals("aye")) {
                 batkiv_aye++
             }
         }
 
-
-
-        listPie.add(PieEntry(ze_aye, "СН (248)")) //+
+        listPie.add(PieEntry(ze_aye, "СН (248)"))
         listColors.add(ColorTemplate.VORDIPLOM_COLORS[0])
         listPie.add(PieEntry(opzj_aye, "ОПЗЖ (44)"))
         listColors.add(ColorTemplate.PASTEL_COLORS[3])
-        listPie.add(PieEntry(golos_aye, "Голос (20)")) //+
+        listPie.add(PieEntry(golos_aye, "Голос (20)"))
         listColors.add(ColorTemplate.VORDIPLOM_COLORS[3])
-        listPie.add(PieEntry(dovira_aye, "Довіра (16)")) //+
+        listPie.add(PieEntry(dovira_aye, "Довіра (16)"))
         listColors.add(ColorTemplate.PASTEL_COLORS[0])
         listPie.add(PieEntry(pozafrak_aye, "Позафракційні (22)"))
         listColors.add(ColorTemplate.JOYFUL_COLORS[0])
@@ -304,6 +223,86 @@ class VoteFragment : Fragment() {
         listPie.add(PieEntry(es_aye, "ЄС (27)"))
         listColors.add(ColorTemplate.JOYFUL_COLORS[4])
         listPie.add(PieEntry(batkiv_aye, "Батьківщина (24)"))
+        listColors.add(ColorTemplate.JOYFUL_COLORS[3])
+
+        val pieDataSet = PieDataSet(listPie, "")
+        pieDataSet.colors = listColors
+        pieDataSet.sliceSpace = 5f
+        pieDataSet.valueLinePart1Length = 0.7f
+        pieDataSet.xValuePosition = null
+        pieDataSet.yValuePosition = PieDataSet.ValuePosition.INSIDE_SLICE
+
+        val tf = Typeface.createFromAsset(context?.assets, "OpenSans-Regular.ttf");
+
+        val pieData = PieData(pieDataSet)
+        pieData.setValueTextSize(11f)
+        pieData.setValueTextColor(Color.BLACK)
+        pieData.setValueTypeface(tf)
+        pieData.setValueFormatter(DefaultValueFormatter(0))
+        pieChart.data = pieData
+
+        pieChart.legend.orientation = Legend.LegendOrientation.VERTICAL
+        pieChart.legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+
+        pieChart.description.isEnabled = false
+       // pieChart.setExtraOffsets(10f, 10f, 10f, 10f)
+        pieChart.dragDecelerationFrictionCoef = 0.95f
+        pieChart.rotationAngle = 30f
+
+        pieChart.isDrawHoleEnabled = true
+        pieChart.setTransparentCircleColor(Color.WHITE)
+        pieChart.setTransparentCircleAlpha(110)
+        pieChart.setDrawCenterText(true)
+
+        pieChart.centerText = generateCenterSpannableText(vote.aye_votes)
+
+        pieChart.setEntryLabelColor(Color.BLACK)
+        pieChart.animateY(1000, Easing.EaseInOutQuad)
+    }
+
+    private fun setPieChartVIII(vote: VoteDetail) {
+        val listPie = ArrayList<PieEntry>()
+        val listColors = ArrayList<Int>()
+
+        var nf_aye = 0f
+        var bpp_aye = 0f
+        var samop_aye = 0f
+        var ob_aye = 0f
+        var radikal_aye = 0f
+        var pozafrak_aye = 0f
+        var batkiv_aye = 0f
+
+        for (i in vote.votes) {
+            if (i.member.party.contains("НАРОДНИЙ ФРОНТ") && i.vote.contentEquals("aye")) {
+                nf_aye++
+            } else if (i.member.party.contains("БЛОК ПЕТРА ПОРОШЕНКА") && i.vote.contentEquals("aye")) {
+                bpp_aye++
+            } else if (i.member.party.contains("САМОПОМІЧ") && i.vote.contentEquals("aye")) {
+                samop_aye++
+            } else if (i.member.party.contains("Опозиційний блок") && i.vote.contentEquals("aye")) {
+                ob_aye++
+            } else if (i.member.party.contentEquals("Фракція Радикальної партії Олега Ляшка") && i.vote.contentEquals("aye")) {
+                radikal_aye++
+            } else if (i.member.party.contains("Батьківщина") && i.vote.contentEquals("aye")) {
+                batkiv_aye++
+            } else if (i.vote.contentEquals("aye")) {
+                pozafrak_aye++
+            }
+        }
+
+        listPie.add(PieEntry(bpp_aye, "Блок Петра Порошенка (127)"))
+        listColors.add(ColorTemplate.VORDIPLOM_COLORS[0])
+        listPie.add(PieEntry(nf_aye, "Народний Фронт (79)"))
+        listColors.add(ColorTemplate.PASTEL_COLORS[3])
+        listPie.add(PieEntry(samop_aye, "Самопоміч (25)"))
+        listColors.add(ColorTemplate.VORDIPLOM_COLORS[3])
+        listPie.add(PieEntry(ob_aye, "Опозиційний блок (39)"))
+        listColors.add(ColorTemplate.PASTEL_COLORS[0])
+        listPie.add(PieEntry(pozafrak_aye, "Позафракційні (22)"))
+        listColors.add(ColorTemplate.JOYFUL_COLORS[0])
+        listPie.add(PieEntry(radikal_aye, "Радикальна партія (21)"))
+        listColors.add(ColorTemplate.JOYFUL_COLORS[1])
+        listPie.add(PieEntry(batkiv_aye, "Батьківщина (21)"))
         listColors.add(ColorTemplate.JOYFUL_COLORS[3])
 
 
@@ -323,19 +322,13 @@ class VoteFragment : Fragment() {
         pieData.setValueFormatter(DefaultValueFormatter(0))
         pieChart.data = pieData
 
-
         pieChart.legend.orientation = Legend.LegendOrientation.VERTICAL
         pieChart.legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
 
-
-
-
-
         pieChart.description.isEnabled = false
-       // pieChart.setExtraOffsets(10f, 10f, 10f, 10f)
+        // pieChart.setExtraOffsets(10f, 10f, 10f, 10f)
         pieChart.dragDecelerationFrictionCoef = 0.95f
         pieChart.rotationAngle = 30f
-
 
         pieChart.isDrawHoleEnabled = true
         pieChart.setTransparentCircleColor(Color.WHITE)
@@ -344,14 +337,8 @@ class VoteFragment : Fragment() {
 
         pieChart.centerText = generateCenterSpannableText(vote.aye_votes)
 
-
-
-
         pieChart.setEntryLabelColor(Color.BLACK)
         pieChart.animateY(1000, Easing.EaseInOutQuad)
-
-
-
     }
 
     fun generateCenterSpannableText(aye_votes: String) : SpannableString {
