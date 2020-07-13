@@ -6,7 +6,7 @@ An Android app about how Ukrainian political parties votes.
 
 ## Screenshots
 
-<img alt="App image" src="github_img/img1.png" width="30%"> <img alt="App image" src="github_img/img2.png" width="30%"> <img alt="App image" src="github_img/img3png" width="30%">
+<img alt="App image" src="github_img/img1.jpg" width="30%"> <img alt="App image" src="github_img/img2.jpg" width="30%"> <img alt="App image" src="github_img/img3.jpg" width="30%">
 
 
 ## Technologies
